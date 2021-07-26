@@ -16,16 +16,23 @@ class App extends Component {
     filter: "",
   };
 
-  addContact = (data) => {
-    const contact = {
+  addContact = ({ name, number }) => {
+    const newContacts = {
       id: uuidv4(),
-      name: data.name,
-      number: data.number,
+      name: name,
+      number: number,
     };
-    this.setState((prevState) => ({
-      contacts: [contact, ...prevState.contacts],
-    }));
+    const currentContacts = this.state.contacts.map((contact) => contact.name);
+
+    if (currentContacts.includes(newContacts.name)) {
+      alert(`${newContacts.name} is alredy in contacts!`);
+    } else {
+      this.setState((prevState) => ({
+        contacts: [...prevState.contacts, newContacts],
+      }));
+    }
   };
+
   deleteContact = (contactId) => {
     this.setState((prevState) => ({
       contacts: prevState.contacts.filter(
